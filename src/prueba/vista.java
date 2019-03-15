@@ -46,7 +46,7 @@ public class vista extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btn1.setText("Entrada");
+        btn1.setText("Vamos");
         btn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn1ActionPerformed(evt);
@@ -112,7 +112,7 @@ public class vista extends javax.swing.JFrame {
         los_skus[1] = "QA2019";
         los_skus[2] = "CELUIQG7";
         los_skus[3] = "ABCEDE";
-        los_skus[4] = "EDEFEQER";
+        los_skus[4] = "CONJCAMOLINDICULBLANC18M";
         for(int i=0; i<los_skus.length;i++){
             la_entrada.setText("Los SKUS de la Entrada: "+ valor);
             res.append(los_skus[i]+"\n");
