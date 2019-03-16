@@ -5,12 +5,20 @@
  */
 package prueba;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import org.krysalis.barcode4j.impl.code128.Code128Bean;
+import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
+
 
 /**
  *
  * @author carlo
  */
 public class vista extends javax.swing.JFrame {
+    String myString="";
+    String image_name="";
 
     /**
      * Creates new form vista
@@ -18,6 +26,7 @@ public class vista extends javax.swing.JFrame {
     public vista() {
         initComponents();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -93,6 +102,26 @@ public class vista extends javax.swing.JFrame {
         for(int i=0; i<10;i++){
             res.append(i+"-"+valor+"\n");
         }
+        myString = "123456";
+        image_name = "prueba.png";
+        try {
+		Code128Bean code128 = new Code128Bean();
+		code128.setHeight(15f);
+		code128.setModuleWidth(0.3);
+		code128.setQuietZone(10);
+		code128.doQuietZone(true);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+		code128.generateBarcode(canvas, myString);
+		canvas.finish();
+		//write to png file
+		FileOutputStream fos = new FileOutputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
+		fos.write(baos.toByteArray());
+		fos.flush();
+		fos.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+            }
        
         
     }//GEN-LAST:event_btn1ActionPerformed
@@ -131,7 +160,7 @@ public class vista extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                /*new vista().setVisible(true);*/
+                new vista().setVisible(true);
             }
         });
     }
