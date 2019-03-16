@@ -6,8 +6,12 @@
 package prueba;
 
 import java.awt.image.BufferedImage;
+import java.awt.print.PrinterJob;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import javax.print.DocPrintJob;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 
@@ -19,12 +23,25 @@ import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 public class vista extends javax.swing.JFrame {
     String myString="";
     String image_name="";
+    PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
+    DocPrintJob job = null;
+
+    
 
     /**
      * Creates new form vista
      */
     public vista() {
         initComponents();
+        for(int i=0;i<printServices.length;i++){
+            impresora.append(printServices[i].getName()+"\n");
+            printers.addItem(new ComboItem(0, "orange"));
+            printers.addItem(new ComboItem(1, "pear"));
+            printers.addItem(new ComboItem(2, "apple"));
+            printers.addItem(new ComboItem(3, "banana"));
+            printers.setSelectedItem("banana");
+            
+        }
     }
     
 
@@ -43,6 +60,9 @@ public class vista extends javax.swing.JFrame {
         res = new javax.swing.JTextArea();
         label = new javax.swing.JLabel();
         la_entrada = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        impresora = new javax.swing.JTextArea();
+        printers = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,6 +83,12 @@ public class vista extends javax.swing.JFrame {
         res.setRows(5);
         jScrollPane1.setViewportView(res);
 
+        impresora.setColumns(20);
+        impresora.setRows(5);
+        jScrollPane2.setViewportView(impresora);
+
+        printers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,9 +102,15 @@ public class vista extends javax.swing.JFrame {
                         .addComponent(btn1))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
-                .addGap(64, 64, 64))
+                        .addGap(242, 242, 242)
+                        .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(printers, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(75, 75, 75)
                 .addComponent(la_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -87,16 +119,22 @@ public class vista extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn1)
-                    .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn1)
+                            .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(printers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(la_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30))
         );
 
@@ -133,6 +171,7 @@ public class vista extends javax.swing.JFrame {
                     fos.write(baos.toByteArray());
                     fos.flush();
                     fos.close();
+                    PrinterJob printJob = PrinterJob.getPrinterJob();
                     } catch (Exception e) {
                             // TODO: handle exception
                 }
@@ -184,9 +223,12 @@ public class vista extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn1;
     private javax.swing.JTextField entrada;
+    private javax.swing.JTextArea impresora;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel la_entrada;
     private javax.swing.JLabel label;
+    private javax.swing.JComboBox<String> printers;
     private javax.swing.JTextArea res;
     // End of variables declaration//GEN-END:variables
 }
