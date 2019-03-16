@@ -5,6 +5,7 @@
  */
 package prueba;
 
+
 /**
  *
  * @author carlo
@@ -31,6 +32,7 @@ public class vista extends javax.swing.JFrame {
         entrada = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         res = new javax.swing.JTextArea();
+        label = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,12 +60,15 @@ public class vista extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
                         .addComponent(btn1)))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addGap(64, 64, 64))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -73,7 +78,9 @@ public class vista extends javax.swing.JFrame {
                     .addComponent(btn1)
                     .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30))
         );
 
@@ -86,6 +93,7 @@ public class vista extends javax.swing.JFrame {
         for(int i=0; i<10;i++){
             res.append(i+"-"+valor+"\n");
         }
+       
         
     }//GEN-LAST:event_btn1ActionPerformed
 
@@ -123,7 +131,7 @@ public class vista extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new vista().setVisible(true);
+                /*new vista().setVisible(true);*/
             }
         });
     }
@@ -132,6 +140,7 @@ public class vista extends javax.swing.JFrame {
     private javax.swing.JButton btn1;
     private javax.swing.JTextField entrada;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel label;
     private javax.swing.JTextArea res;
     // End of variables declaration//GEN-END:variables
 }

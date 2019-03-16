@@ -26,14 +26,18 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" min="-2" pref="257" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jScrollPane1" min="-2" pref="257" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                      <Component id="label" pref="200" max="32767" attributes="0"/>
+                  </Group>
                   <Group type="102" attributes="0">
                       <Component id="entrada" min="-2" pref="171" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="btn1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="73" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -46,7 +50,10 @@
                   <Component id="entrada" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="80" max="32767" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="135" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane1" min="-2" pref="135" max="-2" attributes="0"/>
+                  <Component id="label" min="-2" pref="82" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -81,5 +88,7 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="label">
+    </Component>
   </SubComponents>
 </Form>
