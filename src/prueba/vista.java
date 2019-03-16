@@ -42,6 +42,7 @@ public class vista extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         res = new javax.swing.JTextArea();
         label = new javax.swing.JLabel();
+        la_entrada = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,14 +71,18 @@ public class vista extends javax.swing.JFrame {
                 .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
-                        .addComponent(btn1)))
+                        .addComponent(btn1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
                 .addGap(64, 64, 64))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(la_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,7 +91,9 @@ public class vista extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn1)
                     .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addComponent(la_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -99,29 +106,38 @@ public class vista extends javax.swing.JFrame {
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
         // TODO add your handling code here:
         String valor = entrada.getText();
-        for(int i=0; i<10;i++){
-            res.append(i+"-"+valor+"\n");
+        /* Buscar la entrada via API*/
+        String los_skus[] = new String[5];
+        los_skus[0] = "BOTE12";
+        los_skus[1] = "QA2019";
+        los_skus[2] = "CELUIQG7";
+        los_skus[3] = "ABCEDE";
+        los_skus[4] = "EDEFEQER";
+        for(int i=0; i<los_skus.length;i++){
+            la_entrada.setText("Los SKUS de la Entrada: "+ valor);
+            res.append(los_skus[i]+"\n");
+            myString = los_skus[i];
+            image_name = los_skus[i]+".png";
+            try {
+                    Code128Bean code128 = new Code128Bean();
+                    code128.setHeight(15f);
+                    code128.setModuleWidth(0.3);
+                    code128.setQuietZone(10);
+                    code128.doQuietZone(true);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+                    code128.generateBarcode(canvas, myString);
+                    canvas.finish();
+                    //write to png file
+                    FileOutputStream fos = new FileOutputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
+                    fos.write(baos.toByteArray());
+                    fos.flush();
+                    fos.close();
+                    } catch (Exception e) {
+                            // TODO: handle exception
+                }
         }
-        myString = "123456";
-        image_name = "prueba.png";
-        try {
-		Code128Bean code128 = new Code128Bean();
-		code128.setHeight(15f);
-		code128.setModuleWidth(0.3);
-		code128.setQuietZone(10);
-		code128.doQuietZone(true);
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
-		code128.generateBarcode(canvas, myString);
-		canvas.finish();
-		//write to png file
-		FileOutputStream fos = new FileOutputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
-		fos.write(baos.toByteArray());
-		fos.flush();
-		fos.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-            }
+        
        
         
     }//GEN-LAST:event_btn1ActionPerformed
@@ -169,6 +185,7 @@ public class vista extends javax.swing.JFrame {
     private javax.swing.JButton btn1;
     private javax.swing.JTextField entrada;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel la_entrada;
     private javax.swing.JLabel label;
     private javax.swing.JTextArea res;
     // End of variables declaration//GEN-END:variables
