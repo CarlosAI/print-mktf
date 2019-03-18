@@ -174,13 +174,16 @@ public class vista extends javax.swing.JFrame {
                     if (pss.length == 0){
                         throw new RuntimeException("No printer services available.");
                     }else{
+                        /*for(int j=0;j<pss.length;j++){
+                            System.out.println(pss[j].getName());
+                        }*/
                         PrintService ps = pss[0];
+                        System.out.println(ps);
                         DocPrintJob job = ps.createPrintJob();
-                         Doc doc = new SimpleDoc(fos, DocFlavor.INPUT_STREAM.GIF, null);
-                         job.print(doc, pras);
+                        Doc doc = new SimpleDoc(fos, DocFlavor.INPUT_STREAM.GIF, null);
+                        job.print(doc, pras);
+                        fos.close();
                     }
-                    
-                    fos.close();
                     //PrinterJob printJob = PrinterJob.getPrinterJob();
                     } catch (Exception e) {
                             // TODO: handle exception
