@@ -9,9 +9,15 @@ import java.awt.image.BufferedImage;
 import java.awt.print.PrinterJob;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import javax.print.Doc;
+import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.Copies;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 
@@ -33,15 +39,7 @@ public class vista extends javax.swing.JFrame {
      */
     public vista() {
         initComponents();
-        for(int i=0;i<printServices.length;i++){
-            impresora.append(printServices[i].getName()+"\n");
-            printers.addItem(new ComboItem(0, "orange"));
-            printers.addItem(new ComboItem(1, "pear"));
-            printers.addItem(new ComboItem(2, "apple"));
-            printers.addItem(new ComboItem(3, "banana"));
-            printers.setSelectedItem("banana");
-            
-        }
+        
     }
     
 
@@ -170,8 +168,20 @@ public class vista extends javax.swing.JFrame {
                     FileOutputStream fos = new FileOutputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
                     fos.write(baos.toByteArray());
                     fos.flush();
+                    PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
+                    pras.add(new Copies(1));
+                    PrintService pss[] = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.GIF, pras);
+                    if (pss.length == 0){
+                        throw new RuntimeException("No printer services available.");
+                    }else{
+                        PrintService ps = pss[0];
+                        DocPrintJob job = ps.createPrintJob();
+                         Doc doc = new SimpleDoc(fos, DocFlavor.INPUT_STREAM.GIF, null);
+                         job.print(doc, pras);
+                    }
+                    
                     fos.close();
-                    PrinterJob printJob = PrinterJob.getPrinterJob();
+                    //PrinterJob printJob = PrinterJob.getPrinterJob();
                     } catch (Exception e) {
                             // TODO: handle exception
                 }
