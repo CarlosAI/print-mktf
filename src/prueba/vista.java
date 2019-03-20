@@ -8,10 +8,14 @@ package prueba;
 import java.awt.image.BufferedImage;
 import java.awt.print.PrinterJob;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
+import javax.print.PrintException;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.SimpleDoc;
@@ -143,12 +147,8 @@ public class vista extends javax.swing.JFrame {
         // TODO add your handling code here:
         String valor = entrada.getText();
         /* Buscar la entrada via API*/
-        String los_skus[] = new String[5];
+        String los_skus[] = new String[1];
         los_skus[0] = "BOTE12";
-        los_skus[1] = "QA2019";
-        los_skus[2] = "CELUIQG7";
-        los_skus[3] = "ABCEDE";
-        los_skus[4] = "CONJCAMOLINDICULBLANC18M";
         for(int i=0; i<los_skus.length;i++){
             la_entrada.setText("Los SKUS de la Entrada: "+ valor);
             res.append(los_skus[i]+"\n");
@@ -168,21 +168,23 @@ public class vista extends javax.swing.JFrame {
                     FileOutputStream fos = new FileOutputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
                     fos.write(baos.toByteArray());
                     fos.flush();
+                    fos.close();
                     PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
                     pras.add(new Copies(1));
-                    PrintService pss[] = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.GIF, pras);
+                    PrintService pss[] = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.PNG, pras);
                     if (pss.length == 0){
                         throw new RuntimeException("No printer services available.");
                     }else{
                         /*for(int j=0;j<pss.length;j++){
                             System.out.println(pss[j].getName());
                         }*/
-                        PrintService ps = pss[0];
+                        FileInputStream fin = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
+                        PrintService ps = pss[8];
                         System.out.println(ps);
                         DocPrintJob job = ps.createPrintJob();
-                        Doc doc = new SimpleDoc(fos, DocFlavor.INPUT_STREAM.GIF, null);
+                        Doc doc = new SimpleDoc(fin, DocFlavor.INPUT_STREAM.PNG, null);
                         job.print(doc, pras);
-                        fos.close();
+                        
                     }
                     //PrinterJob printJob = PrinterJob.getPrinterJob();
                     } catch (Exception e) {
