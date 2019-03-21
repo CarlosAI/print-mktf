@@ -22,6 +22,7 @@ import javax.print.SimpleDoc;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.MediaSizeName;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 
@@ -156,12 +157,12 @@ public class vista extends javax.swing.JFrame {
             image_name = los_skus[i]+".png";
             try {
                     Code128Bean code128 = new Code128Bean();
-                    code128.setHeight(15f);
-                    code128.setModuleWidth(0.3);
-                    code128.setQuietZone(10);
+                    code128.setHeight(7f);
+                    code128.setModuleWidth(0.15);
+                    code128.setQuietZone(2);
                     code128.doQuietZone(true);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+                    BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 250, BufferedImage.TYPE_BYTE_BINARY, false, 0);
                     code128.generateBarcode(canvas, myString);
                     canvas.finish();
                     //write to png file
@@ -169,21 +170,24 @@ public class vista extends javax.swing.JFrame {
                     fos.write(baos.toByteArray());
                     fos.flush();
                     fos.close();
-                    PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
-                    pras.add(new Copies(1));
-                    PrintService pss[] = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.PNG, pras);
+                    PrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
+                    
+                    PrintService pss[] = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.PNG, attr);
                     if (pss.length == 0){
+                        System.out.println("NELSON");
                         throw new RuntimeException("No printer services available.");
                     }else{
                         /*for(int j=0;j<pss.length;j++){
                             System.out.println(pss[j].getName());
                         }*/
+                        attr.add(new Copies(1));
+                        attr.add(MediaSizeName.ISO_A9);
                         FileInputStream fin = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
-                        PrintService ps = pss[8];
+                        PrintService ps = pss[0];
                         System.out.println(ps);
                         DocPrintJob job = ps.createPrintJob();
                         Doc doc = new SimpleDoc(fin, DocFlavor.INPUT_STREAM.PNG, null);
-                        job.print(doc, pras);
+                        job.print(doc, attr);
                         
                     }
                     //PrinterJob printJob = PrinterJob.getPrinterJob();
