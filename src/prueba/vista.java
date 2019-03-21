@@ -162,9 +162,9 @@ public class vista extends javax.swing.JFrame {
             image_name = los_skus[i]+".png";
             try {
                     Code128Bean code128 = new Code128Bean();
-                    code128.setHeight(7f);
-                    code128.setModuleWidth(0.15);
-                    code128.setQuietZone(2);
+                    code128.setHeight(15f);
+                    code128.setModuleWidth(0.3);
+                    code128.setQuietZone(1);
                     code128.doQuietZone(true);
                     code128.setFontSize(2);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -199,10 +199,12 @@ public class vista extends javax.swing.JFrame {
                         
                         com.itextpdf.text.Image image =com.itextpdf.text.Image.getInstance("C:\\Users\\carlo\\Desktop\\"+image_name);
                         //Document document = new Document(new Rectangle(12,12));
-                        Document document = new Document();
+                        // 1 Pulgada = 72 pts.
+                        Document document = new Document(new Rectangle(144,72));
                         PdfWriter.getInstance(document, new  FileOutputStream("C:\\Users\\carlo\\Desktop\\pls.pdf"));
                         document.open();
                         image.setAbsolutePosition(0, 0);
+                        image.scaleToFit(144, 72);
                         document.add(image);
                         document.add(image);
                         document.close();
