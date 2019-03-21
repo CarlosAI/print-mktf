@@ -39,6 +39,7 @@ import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 public class vista extends javax.swing.JFrame {
     String myString="";
     String image_name="";
+    String pdf_name="";
     PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
     DocPrintJob job = null;
 
@@ -154,17 +155,18 @@ public class vista extends javax.swing.JFrame {
         String valor = entrada.getText();
         /* Buscar la entrada via API*/
         String los_skus[] = new String[1];
-        los_skus[0] = "BOTE12";
+        los_skus[0] = "CAMNUCASEDE13Ddhub23";
         for(int i=0; i<los_skus.length;i++){
             la_entrada.setText("Los SKUS de la Entrada: "+ valor);
             res.append(los_skus[i]+"\n");
             myString = los_skus[i];
             image_name = los_skus[i]+".png";
+            pdf_name = los_skus[i]+".pdf";
             try {
                     Code128Bean code128 = new Code128Bean();
                     code128.setHeight(15f);
                     code128.setModuleWidth(0.3);
-                    code128.setQuietZone(1);
+                    code128.setQuietZone(1.5);
                     code128.doQuietZone(true);
                     code128.setFontSize(2);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -187,27 +189,32 @@ public class vista extends javax.swing.JFrame {
                             System.out.println(pss[j].getName());
                         }*/
                         attr.add(new Copies(1));
-                        attr.add(MediaSizeName.ISO_B10);
-                        attr.add(OrientationRequested.PORTRAIT);
+                        //attr.add(MediaSizeName.ISO_B10);
+                        //attr.add(OrientationRequested.PORTRAIT);
                         
-                        FileInputStream fin = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
+                        //FileInputStream fin = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
                         PrintService ps = pss[0];
                         System.out.println(ps);
                         DocPrintJob job = ps.createPrintJob();
-                        Doc doc = new SimpleDoc(fin, DocFlavor.INPUT_STREAM.PNG, null);
-                        //job.print(doc, attr);
+                        
+                        
                         
                         com.itextpdf.text.Image image =com.itextpdf.text.Image.getInstance("C:\\Users\\carlo\\Desktop\\"+image_name);
                         //Document document = new Document(new Rectangle(12,12));
                         // 1 Pulgada = 72 pts.
                         Document document = new Document(new Rectangle(144,72));
-                        PdfWriter.getInstance(document, new  FileOutputStream("C:\\Users\\carlo\\Desktop\\pls.pdf"));
+                        PdfWriter.getInstance(document, new  FileOutputStream("C:\\Users\\carlo\\Desktop\\"+pdf_name));
                         document.open();
                         image.setAbsolutePosition(0, 0);
                         image.scaleToFit(144, 72);
                         document.add(image);
                         document.add(image);
                         document.close();
+                        
+                        FileInputStream fis = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+pdf_name);
+                        Doc doc = new SimpleDoc(fis, DocFlavor.INPUT_STREAM.PNG, null);
+                        job.print(doc, attr);
+                        fis.close();
                         
                     }
                     //PrinterJob printJob = PrinterJob.getPrinterJob();
