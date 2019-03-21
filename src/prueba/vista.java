@@ -5,6 +5,10 @@
  */
 package prueba;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.image.BufferedImage;
 import java.awt.print.PrinterJob;
 import java.io.ByteArrayOutputStream;
@@ -191,7 +195,17 @@ public class vista extends javax.swing.JFrame {
                         System.out.println(ps);
                         DocPrintJob job = ps.createPrintJob();
                         Doc doc = new SimpleDoc(fin, DocFlavor.INPUT_STREAM.PNG, null);
-                        job.print(doc, attr);
+                        //job.print(doc, attr);
+                        
+                        com.itextpdf.text.Image image =com.itextpdf.text.Image.getInstance("C:\\Users\\carlo\\Desktop\\"+image_name);
+                        //Document document = new Document(new Rectangle(12,12));
+                        Document document = new Document();
+                        PdfWriter.getInstance(document, new  FileOutputStream("C:\\Users\\carlo\\Desktop\\pls.pdf"));
+                        document.open();
+                        image.setAbsolutePosition(0, 0);
+                        document.add(image);
+                        document.add(image);
+                        document.close();
                         
                     }
                     //PrinterJob printJob = PrinterJob.getPrinterJob();
