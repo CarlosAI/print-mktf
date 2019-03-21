@@ -183,7 +183,7 @@ public class vista extends javax.swing.JFrame {
                             System.out.println(pss[j].getName());
                         }*/
                         attr.add(new Copies(1));
-                        attr.add(MediaSizeName.ISO_A10);
+                        attr.add(MediaSizeName.ISO_B10);
                         attr.add(OrientationRequested.PORTRAIT);
                         
                         FileInputStream fin = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
