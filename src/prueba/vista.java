@@ -23,6 +23,7 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.MediaSizeName;
+import javax.print.attribute.standard.OrientationRequested;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 
@@ -161,8 +162,9 @@ public class vista extends javax.swing.JFrame {
                     code128.setModuleWidth(0.15);
                     code128.setQuietZone(2);
                     code128.doQuietZone(true);
+                    code128.setFontSize(2);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 250, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+                    BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 400, BufferedImage.TYPE_BYTE_BINARY, false, 0);
                     code128.generateBarcode(canvas, myString);
                     canvas.finish();
                     //write to png file
@@ -181,7 +183,9 @@ public class vista extends javax.swing.JFrame {
                             System.out.println(pss[j].getName());
                         }*/
                         attr.add(new Copies(1));
-                        attr.add(MediaSizeName.ISO_A9);
+                        attr.add(MediaSizeName.ISO_A10);
+                        attr.add(OrientationRequested.PORTRAIT);
+                        
                         FileInputStream fin = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
                         PrintService ps = pss[0];
                         System.out.println(ps);
