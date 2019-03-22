@@ -40,6 +40,7 @@ public class vista extends javax.swing.JFrame {
     String myString="";
     String image_name="";
     String pdf_name="";
+    String pdf_name2="";
     PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
     DocPrintJob job = null;
 
@@ -155,13 +156,14 @@ public class vista extends javax.swing.JFrame {
         String valor = entrada.getText();
         /* Buscar la entrada via API*/
         String los_skus[] = new String[1];
-        los_skus[0] = "CAMNUCASEDE13Ddhub23";
+        los_skus[0] = "Heard134";
         for(int i=0; i<los_skus.length;i++){
             la_entrada.setText("Los SKUS de la Entrada: "+ valor);
             res.append(los_skus[i]+"\n");
             myString = los_skus[i];
             image_name = los_skus[i]+".png";
             pdf_name = los_skus[i]+".pdf";
+            pdf_name2 = los_skus[i];
             try {
                     Code128Bean code128 = new Code128Bean();
                     code128.setHeight(15f);
@@ -188,14 +190,16 @@ public class vista extends javax.swing.JFrame {
                         /*for(int j=0;j<pss.length;j++){
                             System.out.println(pss[j].getName());
                         }*/
-                        attr.add(new Copies(1));
-                        //attr.add(MediaSizeName.ISO_B10);
+                        //attr.add(new Copies(1));
+                        attr.add(MediaSizeName.ISO_A10);
                         //attr.add(OrientationRequested.PORTRAIT);
                         
                         //FileInputStream fin = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
                         PrintService ps = pss[0];
                         System.out.println(ps);
                         DocPrintJob job = ps.createPrintJob();
+                        
+                        //PrinterJob job = PrinterJob.getPrinterJob();
                         
                         
                         
@@ -211,9 +215,16 @@ public class vista extends javax.swing.JFrame {
                         document.add(image);
                         document.close();
                         
-                        FileInputStream fis = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+pdf_name);
-                        Doc doc = new SimpleDoc(fis, DocFlavor.INPUT_STREAM.PNG, null);
+                        System.out.println("aqui");
+                        FileInputStream fis = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
+                        System.out.println("NO");
+                        SimpleDoc doc = new SimpleDoc(fis, DocFlavor.INPUT_STREAM.PNG, null);
+                        System.out.println(fis);
+                        System.out.println(doc);
+                        
                         job.print(doc, attr);
+                        System.out.println("No llega");
+                        System.out.println(image_name);
                         fis.close();
                         
                     }
