@@ -12,8 +12,10 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.image.BufferedImage;
 import java.awt.print.PrinterJob;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.Doc;
@@ -28,6 +30,8 @@ import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.MediaSizeName;
 import javax.print.attribute.standard.OrientationRequested;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.printing.PDFPageable;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 
@@ -156,7 +160,7 @@ public class vista extends javax.swing.JFrame {
         String valor = entrada.getText();
         /* Buscar la entrada via API*/
         String los_skus[] = new String[1];
-        los_skus[0] = "Heard134";
+        los_skus[0] = "Bote12";
         for(int i=0; i<los_skus.length;i++){
             la_entrada.setText("Los SKUS de la Entrada: "+ valor);
             res.append(los_skus[i]+"\n");
@@ -168,11 +172,11 @@ public class vista extends javax.swing.JFrame {
                     Code128Bean code128 = new Code128Bean();
                     code128.setHeight(15f);
                     code128.setModuleWidth(0.3);
-                    code128.setQuietZone(1.5);
+                    code128.setQuietZone(2);
                     code128.doQuietZone(true);
-                    code128.setFontSize(2);
+                    code128.setFontSize(3);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 400, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+                    BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
                     code128.generateBarcode(canvas, myString);
                     canvas.finish();
                     //write to png file
@@ -197,7 +201,7 @@ public class vista extends javax.swing.JFrame {
                         //FileInputStream fin = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
                         PrintService ps = pss[0];
                         System.out.println(ps);
-                        DocPrintJob job = ps.createPrintJob();
+                        //DocPrintJob job = ps.createPrintJob();
                         
                         //PrinterJob job = PrinterJob.getPrinterJob();
                         
@@ -207,6 +211,7 @@ public class vista extends javax.swing.JFrame {
                         //Document document = new Document(new Rectangle(12,12));
                         // 1 Pulgada = 72 pts.
                         Document document = new Document(new Rectangle(144,72));
+                        //Document document = new Document(new Rectangle(500,500));
                         PdfWriter.getInstance(document, new  FileOutputStream("C:\\Users\\carlo\\Desktop\\"+pdf_name));
                         document.open();
                         image.setAbsolutePosition(0, 0);
@@ -215,18 +220,21 @@ public class vista extends javax.swing.JFrame {
                         document.add(image);
                         document.close();
                         
-                        System.out.println("aqui");
-                        FileInputStream fis = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
-                        System.out.println("NO");
+                       /*
+                        FileInputStream fis = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);     
                         SimpleDoc doc = new SimpleDoc(fis, DocFlavor.INPUT_STREAM.PNG, null);
-                        System.out.println(fis);
-                        System.out.println(doc);
-                        
                         job.print(doc, attr);
-                        System.out.println("No llega");
-                        System.out.println(image_name);
-                        fis.close();
-                        
+                        fis.close(); */
+                       System.out.println("aver");
+                       PDDocument el_pdf = PDDocument.load(new File("C:\\Users\\carlo\\Desktop\\"+pdf_name));
+                        System.out.println(pdf_name);
+                       System.out.println(el_pdf);
+                       PrinterJob el_job = PrinterJob.getPrinterJob();
+                       el_job.setPageable(new PDFPageable(el_pdf));
+                       el_job.setPrintService(ps);
+                       System.out.println("ACAx2");
+                       el_job.print();
+                       System.out.println(":v");
                     }
                     //PrinterJob printJob = PrinterJob.getPrinterJob();
                     } catch (Exception e) {
