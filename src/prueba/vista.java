@@ -185,7 +185,7 @@ public class vista extends javax.swing.JFrame {
         String valor = entrada.getText();
         /* Buscar la entrada via API*/
         String los_skus[] = new String[1];
-        los_skus[0] = "Bote12";
+        los_skus[0] = "Hola";
         for(int i=0; i<los_skus.length;i++){
             la_entrada.setText("Los SKUS de la Entrada: "+ valor);
             res.append(los_skus[i]+"\n");
@@ -193,7 +193,7 @@ public class vista extends javax.swing.JFrame {
             TscLibDll.INSTANCE.openport("TSC TE200");
             TscLibDll.INSTANCE.setup("50", "18", "6", "8", "0", "2", "2");  //Label height, width, etc.
             TscLibDll.INSTANCE.clearbuffer();
-            TscLibDll.INSTANCE.barcode("45", "45", "39", "96", "1", "0", "2", "4", myString);
+            TscLibDll.INSTANCE.barcode("44", "44", "39", "96", "1", "0", "2", "4", myString);
             TscLibDll.INSTANCE.printlabel("1", "1");
             TscLibDll.INSTANCE.closeport();
         }   
