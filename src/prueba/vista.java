@@ -35,11 +35,18 @@ import org.apache.pdfbox.printing.PDFPageable;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 
+//LAS CHIDAS
 
+import com.sun.jna.Library;
+import com.sun.jna.Native;
+
+/*
 /**
  *
  * @author carlo
  */
+
+
 public class vista extends javax.swing.JFrame {
     String myString="";
     String image_name="";
@@ -55,6 +62,24 @@ public class vista extends javax.swing.JFrame {
      */
     public vista() {
         initComponents();
+        
+    }
+    
+    public interface TscLibDll extends Library {
+        TscLibDll INSTANCE = (TscLibDll) Native.loadLibrary ("C:\\Windows\\System32\\TSCLIB.dll", TscLibDll.class);
+        int about ();
+        int openport (String pirnterName);
+        int closeport ();
+        int sendcommand (String printerCommand);
+        int setup (String width,String height,String speed,String density,String sensor,String vertical,String offset);
+        int downloadpcx (String filename,String image_name);
+        int barcode (String x,String y,String type,String height,String readable,String rotation,String narrow,String wide,String code);
+        int printerfont (String x,String y,String fonttype,String rotation,String xmul,String ymul,String text);
+        int clearbuffer ();
+        int printlabel (String set, String copy);
+        int formfeed ();
+        int nobackfeed ();
+        int windowsfont (int x, int y, int fontheight, int rotation, int fontstyle, int fontunderline, String szFaceName, String content);
         
     }
     
@@ -165,82 +190,13 @@ public class vista extends javax.swing.JFrame {
             la_entrada.setText("Los SKUS de la Entrada: "+ valor);
             res.append(los_skus[i]+"\n");
             myString = los_skus[i];
-            image_name = los_skus[i]+".png";
-            pdf_name = los_skus[i]+".pdf";
-            pdf_name2 = los_skus[i];
-            try {
-                    Code128Bean code128 = new Code128Bean();
-                    code128.setHeight(15f);
-                    code128.setModuleWidth(0.3);
-                    code128.setQuietZone(2);
-                    code128.doQuietZone(true);
-                    code128.setFontSize(3);
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
-                    code128.generateBarcode(canvas, myString);
-                    canvas.finish();
-                    //write to png file
-                    FileOutputStream fos = new FileOutputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
-                    fos.write(baos.toByteArray());
-                    fos.flush();
-                    fos.close();
-                    PrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
-                    
-                    PrintService pss[] = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.PNG, attr);
-                    if (pss.length == 0){
-                        System.out.println("NELSON");
-                        throw new RuntimeException("No printer services available.");
-                    }else{
-                        /*for(int j=0;j<pss.length;j++){
-                            System.out.println(pss[j].getName());
-                        }*/
-                        //attr.add(new Copies(1));
-                        attr.add(MediaSizeName.ISO_A10);
-                        //attr.add(OrientationRequested.PORTRAIT);
-                        
-                        //FileInputStream fin = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
-                        PrintService ps = pss[0];
-                        System.out.println(ps);
-                        //DocPrintJob job = ps.createPrintJob();
-                        
-                        //PrinterJob job = PrinterJob.getPrinterJob();
-                        
-                        
-                        
-                        com.itextpdf.text.Image image =com.itextpdf.text.Image.getInstance("C:\\Users\\carlo\\Desktop\\"+image_name);
-                        //Document document = new Document(new Rectangle(12,12));
-                        // 1 Pulgada = 72 pts.
-                        Document document = new Document(new Rectangle(144,72));
-                        //Document document = new Document(new Rectangle(500,500));
-                        PdfWriter.getInstance(document, new  FileOutputStream("C:\\Users\\carlo\\Desktop\\"+pdf_name));
-                        document.open();
-                        image.setAbsolutePosition(0, 0);
-                        image.scaleToFit(144, 72);
-                        document.add(image);
-                        document.add(image);
-                        document.close();
-                        
-                       /*
-                        FileInputStream fis = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);     
-                        SimpleDoc doc = new SimpleDoc(fis, DocFlavor.INPUT_STREAM.PNG, null);
-                        job.print(doc, attr);
-                        fis.close(); */
-                       System.out.println("aver");
-                       PDDocument el_pdf = PDDocument.load(new File("C:\\Users\\carlo\\Desktop\\"+pdf_name));
-                        System.out.println(pdf_name);
-                       System.out.println(el_pdf);
-                       PrinterJob el_job = PrinterJob.getPrinterJob();
-                       el_job.setPageable(new PDFPageable(el_pdf));
-                       el_job.setPrintService(ps);
-                       System.out.println("ACAx2");
-                       el_job.print();
-                       System.out.println(":v");
-                    }
-                    //PrinterJob printJob = PrinterJob.getPrinterJob();
-                    } catch (Exception e) {
-                            // TODO: handle exception
-                }
-        }
+            TscLibDll.INSTANCE.openport("TSC TE200");
+            TscLibDll.INSTANCE.setup("50", "18", "6", "8", "0", "2", "2");  //Label height, width, etc.
+            TscLibDll.INSTANCE.clearbuffer();
+            TscLibDll.INSTANCE.barcode("45", "45", "39", "96", "1", "0", "2", "4", myString);
+            TscLibDll.INSTANCE.printlabel("1", "1");
+            TscLibDll.INSTANCE.closeport();
+        }   
         
        
         
