@@ -95,38 +95,27 @@ public class vista extends javax.swing.JFrame {
 
         btn1 = new javax.swing.JButton();
         entrada = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        res = new javax.swing.JTextArea();
         label = new javax.swing.JLabel();
         la_entrada = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        impresora = new javax.swing.JTextArea();
-        printers = new javax.swing.JComboBox<>();
+        copies = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btn1.setText("Vamos");
+        btn1.setText("Imprimir");
         btn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn1ActionPerformed(evt);
             }
         });
 
+        entrada.setText("SKU");
         entrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 entradaActionPerformed(evt);
             }
         });
 
-        res.setColumns(20);
-        res.setRows(5);
-        jScrollPane1.setViewportView(res);
-
-        impresora.setColumns(20);
-        impresora.setRows(5);
-        jScrollPane2.setViewportView(impresora);
-
-        printers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        copies.setText("1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,19 +126,15 @@ public class vista extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(btn1))
+                        .addGap(21, 21, 21)
+                        .addComponent(copies, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btn1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(242, 242, 242)
+                        .addGap(499, 499, 499)
                         .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(printers, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGap(228, 228, 228))
             .addGroup(layout.createSequentialGroup()
                 .addGap(75, 75, 75)
                 .addComponent(la_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -158,23 +143,16 @@ public class vista extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn1)
-                            .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(printers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn1)
+                    .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(copies, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(la_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30))
+                .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(83, 83, 83))
         );
 
         pack();
@@ -182,21 +160,23 @@ public class vista extends javax.swing.JFrame {
 
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
         // TODO add your handling code here:
-        String valor = entrada.getText();
+        String sku = entrada.getText();
+        String copias = copies.getText();
+        //int num_copies = Integer.parseInt(copias);
         /* Buscar la entrada via API*/
         String los_skus[] = new String[1];
         los_skus[0] = "QA2019";
-        for(int i=0; i<los_skus.length;i++){
-            la_entrada.setText("Los SKUS de la Entrada: "+ valor);
-            res.append(los_skus[i]+"\n");
-            myString = los_skus[i];
+        //for(int i=0; i<los_skus.length;i++){
+            la_entrada.setText("Los SKUS de la Entrada: "+ sku);
+            //res.append(los_skus[i]+"\n");
+            //myString = los_skus[i];
             TscLibDll.INSTANCE.openport("TSC TE200");
             TscLibDll.INSTANCE.setup("50", "18", "6", "8", "0", "2", "2");  //Label height, width, etc.
             TscLibDll.INSTANCE.clearbuffer();
-            TscLibDll.INSTANCE.barcode("44", "44", "93", "96", "1", "0", "2", "4", myString);
-            TscLibDll.INSTANCE.printlabel("1", "1");
+            TscLibDll.INSTANCE.barcode("44", "44", "93", "96", "1", "0", "2", "4", sku);
+            TscLibDll.INSTANCE.printlabel("1", copias);
             TscLibDll.INSTANCE.closeport();
-        }   
+        //}   
         
        
         
@@ -243,13 +223,9 @@ public class vista extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn1;
+    private javax.swing.JTextField copies;
     private javax.swing.JTextField entrada;
-    private javax.swing.JTextArea impresora;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel la_entrada;
     private javax.swing.JLabel label;
-    private javax.swing.JComboBox<String> printers;
-    private javax.swing.JTextArea res;
     // End of variables declaration//GEN-END:variables
 }
