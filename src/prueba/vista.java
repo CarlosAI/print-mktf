@@ -5,11 +5,18 @@
  */
 package prueba;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.placeholder.PlaceHolder;
 import java.awt.image.BufferedImage;
 import java.awt.print.PrinterJob;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.Doc;
@@ -22,17 +29,35 @@ import javax.print.SimpleDoc;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.MediaSizeName;
+import javax.print.attribute.standard.OrientationRequested;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.printing.PDFPageable;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
+import java.awt.*; 
+import sun.awt.*; 
+import sun.awt.windows.*; 
+import javax.swing.*; 
+import java.awt.event.*;
 
+//LAS CHIDAS
 
+import com.sun.jna.Library;
+import com.sun.jna.Native;
+
+/*
 /**
  *
  * @author carlo
  */
+
+
 public class vista extends javax.swing.JFrame {
     String myString="";
     String image_name="";
+    String pdf_name="";
+    String pdf_name2="";
     PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
     DocPrintJob job = null;
 
@@ -43,6 +68,30 @@ public class vista extends javax.swing.JFrame {
      */
     public vista() {
         initComponents();
+        PlaceHolder holder = new PlaceHolder(entrada, "Ingresar el SKU");
+        pap1.requestFocusInWindow();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.setTitle("Impresion de etiquetas V1.1");
+        
+    }
+    
+    public interface TscLibDll extends Library {
+        String path = new File("TSCLIB.dll").getAbsolutePath();
+        TscLibDll INSTANCE = (TscLibDll) Native.loadLibrary(path, TscLibDll.class);
+        int about ();
+        int openport (String pirnterName);
+        int closeport ();
+        int sendcommand (String printerCommand);
+        int setup (String width,String height,String speed,String density,String sensor,String vertical,String offset);
+        int downloadpcx (String filename,String image_name);
+        int barcode (String x,String y,String type,String height,String readable,String rotation,String narrow,String wide,String code);
+        int printerfont (String x,String y,String fonttype,String rotation,String xmul,String ymul,String text);
+        int clearbuffer ();
+        int printlabel (String set, String copy);
+        int formfeed ();
+        int nobackfeed ();
+        int windowsfont (int x, int y, int fontheight, int rotation, int fontstyle, int fontunderline, String szFaceName, String content);
         
     }
     
@@ -56,141 +105,87 @@ public class vista extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         btn1 = new javax.swing.JButton();
         entrada = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        res = new javax.swing.JTextArea();
         label = new javax.swing.JLabel();
         la_entrada = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        impresora = new javax.swing.JTextArea();
-        printers = new javax.swing.JComboBox<>();
+        copies = new javax.swing.JTextField();
+        pap1 = new javax.swing.JRadioButton();
+        pap2 = new javax.swing.JRadioButton();
+        label_size = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btn1.setText("Vamos");
+        btn1.setText("Imprimir");
         btn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn1ActionPerformed(evt);
             }
         });
+        getContentPane().add(btn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 106, 172, 72));
 
         entrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 entradaActionPerformed(evt);
             }
         });
+        entrada.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                entradaKeyTyped(evt);
+            }
+        });
+        getContentPane().add(entrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 31, 171, -1));
+        getContentPane().add(label, new org.netbeans.lib.awtextra.AbsoluteConstraints(559, 144, -1, 82));
+        getContentPane().add(la_entrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(303, 106, 186, 21));
 
-        res.setColumns(20);
-        res.setRows(5);
-        jScrollPane1.setViewportView(res);
+        copies.setText("1");
+        getContentPane().add(copies, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, 31, 46, -1));
 
-        impresora.setColumns(20);
-        impresora.setRows(5);
-        jScrollPane2.setViewportView(impresora);
+        buttonGroup1.add(pap1);
+        pap1.setSelected(true);
+        pap1.setText("Etiqueta Corta");
+        getContentPane().add(pap1, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 30, -1, -1));
 
-        printers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        buttonGroup1.add(pap2);
+        pap2.setText("Etiqueta Larga");
+        getContentPane().add(pap2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 62, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(btn1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(242, 242, 242)
-                        .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(printers, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(la_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn1)
-                            .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(printers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addComponent(la_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30))
-        );
+        label_size.setText("Longitud: ");
+        getContentPane().add(label_size, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 171, 28));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
         // TODO add your handling code here:
-        String valor = entrada.getText();
+        String sku = entrada.getText();
+        String copias = copies.getText();
+        //int num_copies = Integer.parseInt(copias);
         /* Buscar la entrada via API*/
         String los_skus[] = new String[1];
-        los_skus[0] = "BOTE12";
-        for(int i=0; i<los_skus.length;i++){
-            la_entrada.setText("Los SKUS de la Entrada: "+ valor);
-            res.append(los_skus[i]+"\n");
-            myString = los_skus[i];
-            image_name = los_skus[i]+".png";
-            try {
-                    Code128Bean code128 = new Code128Bean();
-                    code128.setHeight(15f);
-                    code128.setModuleWidth(0.3);
-                    code128.setQuietZone(10);
-                    code128.doQuietZone(true);
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
-                    code128.generateBarcode(canvas, myString);
-                    canvas.finish();
-                    //write to png file
-                    FileOutputStream fos = new FileOutputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
-                    fos.write(baos.toByteArray());
-                    fos.flush();
-                    fos.close();
-                    PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
-                    pras.add(new Copies(1));
-                    PrintService pss[] = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.PNG, pras);
-                    if (pss.length == 0){
-                        throw new RuntimeException("No printer services available.");
-                    }else{
-                        /*for(int j=0;j<pss.length;j++){
-                            System.out.println(pss[j].getName());
-                        }*/
-                        FileInputStream fin = new FileInputStream("C:\\Users\\carlo\\Desktop\\"+image_name);
-                        PrintService ps = pss[8];
-                        System.out.println(ps);
-                        DocPrintJob job = ps.createPrintJob();
-                        Doc doc = new SimpleDoc(fin, DocFlavor.INPUT_STREAM.PNG, null);
-                        job.print(doc, pras);
-                        
-                    }
-                    //PrinterJob printJob = PrinterJob.getPrinterJob();
-                    } catch (Exception e) {
-                            // TODO: handle exception
-                }
-        }
+        los_skus[0] = "QA2019";
+        //for(int i=0; i<los_skus.length;i++){
+            la_entrada.setText("Los SKUS de la Entrada: "+ sku);
+            //res.append(los_skus[i]+"\n");
+            //myString = los_skus[i];
+            
+            
+            TscLibDll.INSTANCE.openport("TSC TE200");
+            if(pap1.isSelected()){
+                System.out.println("Papel corto");
+                TscLibDll.INSTANCE.setup("50", "25", "6", "8", "0", "2", "2");  //Label height, width, etc.
+            }else{
+                System.out.println("Papel largo");
+                TscLibDll.INSTANCE.setup("95", "25", "6", "8", "0", "2", "2");  //Label height, width, etc.
+            }
+            TscLibDll.INSTANCE.clearbuffer();
+            TscLibDll.INSTANCE.barcode("44", "44", "93", "96", "1", "0", "2", "4", sku);
+            TscLibDll.INSTANCE.printlabel("1", copias);
+            TscLibDll.INSTANCE.closeport();
+        //}   
         
        
         
@@ -199,6 +194,19 @@ public class vista extends javax.swing.JFrame {
     private void entradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entradaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_entradaActionPerformed
+
+    private void entradaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entradaKeyTyped
+        // TODO add your handling code here:
+        String hola = entrada.getText();
+        int letras = hola.length() +1;
+        //System.out.println("El tamaño es: "+ letras);
+        label_size.setText("Longitud: "+letras);
+        if(letras>=15){
+            pap2.setSelected(true);
+        }else{
+            pap1.setSelected(true);
+        }
+    }//GEN-LAST:event_entradaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -237,13 +245,13 @@ public class vista extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn1;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField copies;
     private javax.swing.JTextField entrada;
-    private javax.swing.JTextArea impresora;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel la_entrada;
     private javax.swing.JLabel label;
-    private javax.swing.JComboBox<String> printers;
-    private javax.swing.JTextArea res;
+    private javax.swing.JLabel label_size;
+    private javax.swing.JRadioButton pap1;
+    private javax.swing.JRadioButton pap2;
     // End of variables declaration//GEN-END:variables
 }
