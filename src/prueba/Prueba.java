@@ -49,6 +49,7 @@ public class Prueba {
 
         //System.out.println("Testing 1 - Send Http GET request");
         //http.sendGet();
+        System.load("C:\\Users\\carlo\\OneDrive\\Documentos\\NetBeansProjects\\Prueba\\TSCLIB.dll");
         new vista().setVisible(true);
 		
     }

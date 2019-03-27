@@ -71,7 +71,7 @@ public class vista extends javax.swing.JFrame {
     }
     
     public interface TscLibDll extends Library {
-        String path = new File("src/TSCLIB.dll").getAbsolutePath();
+        String path = new File("TSCLIB.dll").getAbsolutePath();
         TscLibDll INSTANCE = (TscLibDll) Native.loadLibrary(path, TscLibDll.class);
         int about ();
         int openport (String pirnterName);
