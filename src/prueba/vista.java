@@ -171,7 +171,7 @@ public class vista extends javax.swing.JFrame {
             //res.append(los_skus[i]+"\n");
             //myString = los_skus[i];
             TscLibDll.INSTANCE.openport("TSC TE200");
-            TscLibDll.INSTANCE.setup("50", "18", "6", "8", "0", "2", "2");  //Label height, width, etc.
+            TscLibDll.INSTANCE.setup("50", "25", "6", "8", "0", "2", "2");  //Label height, width, etc.
             TscLibDll.INSTANCE.clearbuffer();
             TscLibDll.INSTANCE.barcode("44", "44", "93", "96", "1", "0", "2", "4", sku);
             TscLibDll.INSTANCE.printlabel("1", copias);
