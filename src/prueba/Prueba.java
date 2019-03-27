@@ -47,8 +47,9 @@ public class Prueba {
 
         HttpURLConnectionExample http = new HttpURLConnectionExample();
 
-        System.out.println("Testing 1 - Send Http GET request");
-        http.sendGet();
+        //System.out.println("Testing 1 - Send Http GET request");
+        //http.sendGet();
+        new vista().setVisible(true);
 		
     }
 	

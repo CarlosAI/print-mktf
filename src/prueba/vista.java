@@ -34,6 +34,11 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.printing.PDFPageable;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
+import java.awt.*; 
+import sun.awt.*; 
+import sun.awt.windows.*; 
+import javax.swing.*; 
+import java.awt.event.*;
 
 //LAS CHIDAS
 
@@ -66,7 +71,8 @@ public class vista extends javax.swing.JFrame {
     }
     
     public interface TscLibDll extends Library {
-        TscLibDll INSTANCE = (TscLibDll) Native.loadLibrary ("C:\\Windows\\System32\\TSCLIB.dll", TscLibDll.class);
+        String path = new File("src/TSCLIB.dll").getAbsolutePath();
+        TscLibDll INSTANCE = (TscLibDll) Native.loadLibrary(path, TscLibDll.class);
         int about ();
         int openport (String pirnterName);
         int closeport ();
@@ -171,7 +177,7 @@ public class vista extends javax.swing.JFrame {
             //res.append(los_skus[i]+"\n");
             //myString = los_skus[i];
             TscLibDll.INSTANCE.openport("TSC TE200");
-            TscLibDll.INSTANCE.setup("50", "25", "6", "8", "0", "2", "2");  //Label height, width, etc.
+            TscLibDll.INSTANCE.setup("95", "25", "6", "8", "0", "2", "2");  //Label height, width, etc.
             TscLibDll.INSTANCE.clearbuffer();
             TscLibDll.INSTANCE.barcode("44", "44", "93", "96", "1", "0", "2", "4", sku);
             TscLibDll.INSTANCE.printlabel("1", copias);
