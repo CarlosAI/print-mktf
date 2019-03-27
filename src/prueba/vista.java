@@ -72,6 +72,7 @@ public class vista extends javax.swing.JFrame {
         pap1.requestFocusInWindow();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.setTitle("Impresion de etiquetas V1.1");
         
     }
     
