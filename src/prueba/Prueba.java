@@ -17,6 +17,7 @@ import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -49,7 +50,10 @@ public class Prueba {
 
         //System.out.println("Testing 1 - Send Http GET request");
         //http.sendGet();
-        System.load("C:\\Users\\carlo\\OneDrive\\Documentos\\NetBeansProjects\\Prueba\\TSCLIB.dll");
+        File miDir = new File (".");
+        String path = miDir.getCanonicalPath()+"\\TSCLIB.dll";
+        System.out.println ("Directorio actual: " + path);
+        System.load(path);
         new vista().setVisible(true);
 		
     }
