@@ -182,7 +182,7 @@ public class vista extends javax.swing.JFrame {
                 TscLibDll.INSTANCE.setup("95", "25", "6", "8", "0", "2", "2");  //Label height, width, etc.
             }
             TscLibDll.INSTANCE.clearbuffer();
-            TscLibDll.INSTANCE.barcode("44", "44", "93", "96", "1", "0", "2", "4", sku);
+            TscLibDll.INSTANCE.barcode("24", "54", "128", "96", "1", "0", "2", "4", sku);
             TscLibDll.INSTANCE.printlabel("1", copias);
             TscLibDll.INSTANCE.closeport();
         //}   
