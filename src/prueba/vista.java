@@ -206,6 +206,12 @@ public class vista extends javax.swing.JFrame {
         }else{
             pap1.setSelected(true);
         }
+        
+        if(letras >30){
+            btn1.setEnabled(false);
+        }else{
+            btn1.setEnabled(true);
+        }
     }//GEN-LAST:event_entradaKeyTyped
 
     /**
