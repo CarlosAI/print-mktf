@@ -114,6 +114,7 @@ public class vista extends javax.swing.JFrame {
         pap1 = new javax.swing.JRadioButton();
         pap2 = new javax.swing.JRadioButton();
         label_size = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -155,6 +156,14 @@ public class vista extends javax.swing.JFrame {
 
         label_size.setText("Longitud: ");
         getContentPane().add(label_size, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 171, 28));
+
+        jButton1.setText("Formulario");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 240, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -214,6 +223,12 @@ public class vista extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_entradaKeyTyped
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Formulario form = new Formulario();
+        form.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -254,6 +269,7 @@ public class vista extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField copies;
     private javax.swing.JTextField entrada;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel la_entrada;
     private javax.swing.JLabel label;
     private javax.swing.JLabel label_size;
