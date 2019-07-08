@@ -183,12 +183,13 @@ public class Formulario extends javax.swing.JFrame {
             vista.TscLibDll.INSTANCE.openport("TSC TE200");
             vista.TscLibDll.INSTANCE.setup("95", "25", "6", "8", "0", "2", "2");  //Label height, width, etc.
             vista.TscLibDll.INSTANCE.clearbuffer();
-            vista.TscLibDll.INSTANCE.windowsfont(10, 10, 12, 0, 0, 0, "Arial", el_nombre);
-            vista.TscLibDll.INSTANCE.windowsfont(10, 25, 12, 0, 0, 0, "Arial", el_estado);
-            vista.TscLibDll.INSTANCE.windowsfont(10, 40, 12, 0, 0, 0, "Arial", dir);
-            vista.TscLibDll.INSTANCE.windowsfont(10, 65, 12, 0, 0, 0, "Arial", cp);
-            vista.TscLibDll.INSTANCE.windowsfont(10, 80, 12, 0, 0, 0, "Arial", tel);
-            vista.TscLibDll.INSTANCE.windowsfont(10, 95, 12, 0, 0, 0, "Arial", la_ciudad);
+            vista.TscLibDll.INSTANCE.windowsfont(10, 10, 12, 0, 0, 0, "Arial", "Nombre: "+el_nombre);
+            vista.TscLibDll.INSTANCE.windowsfont(10, 40, 12, 0, 0, 0, "Arial", "Telefono: "+ tel);
+            vista.TscLibDll.INSTANCE.windowsfont(10, 25, 12, 0, 0, 0, "Arial", "Direccion" +dir);
+            vista.TscLibDll.INSTANCE.windowsfont(10, 95, 12, 0, 0, 0, "Arial", "Ciudad" + la_ciudad);
+            vista.TscLibDll.INSTANCE.windowsfont(10, 80, 12, 0, 0, 0, "Arial", "Estado: "+estado);
+            vista.TscLibDll.INSTANCE.windowsfont(10, 65, 12, 0, 0, 0, "Arial", "CP:"+cp);
+            
  
             vista.TscLibDll.INSTANCE.printlabel("1", "1");
             vista.TscLibDll.INSTANCE.closeport();
